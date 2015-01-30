@@ -33,6 +33,15 @@ $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size
 PRODUCT_BOOTANIMATION := vendor/carbon/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
 endif
 
+# Use a device specific bootanimation for celoxhd. It has a 720x1280 screen, but
+# the 720 bootanimation flashes white at the end of each loop. This was
+# fixed by taking the larger images and cropping them to 480x480 since this
+# size works without flashing a white screen and the logo is still large enough
+# to fit the screen properly.
+ifeq ($(PRODUCT_DEVICE), celoxhd)
+PRODUCT_BOOTANIMATION := vendor/carbon/prebuilt/common/bootanimation/$(PRODUCT_DEVICE).zip
+endif
+
 ifeq ($(PRODUCT_GMS_CLIENTID_BASE),)
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.clientidbase=android-google
